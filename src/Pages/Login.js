@@ -3,14 +3,14 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-const URL = `https://pre-onboarding-selection-task.shop/`;
-const navigate = useNavigate();
+const URL = `https://pre-onboarding-selection-task.shop`;
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const disabled = !email.includes('@') || password.length < 8;
 
+  const navigate = useNavigate();
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
@@ -30,12 +30,18 @@ const Login = () => {
 
     axios.post(`${URL}/auth/signin`, loginData, loginConfig).then((res) => {
       console.log(res);
-      let access_token = res.access_token;
-      localStorage.setItem('access_token', access_token);
-
-      navigate('/todo');
+      let access_token = res.data.access_token;
+      if (access_token) {
+        localStorage.setItem('access_token', access_token);
+        navigate('/todo');
+      }
     });
   };
+
+  const handleSignup = () => {
+    navigate('/signup');
+  };
+
   return (
     <Container>
       <form onSubmit={handleSubmit}>
@@ -55,8 +61,9 @@ const Login = () => {
             onChange={handlePasswordChange}
           ></input>
         </div>
-        <button disabled={disabled}>버튼</button>
+        <button disabled={disabled}>로그인</button>
       </form>
+      <button onClick={handleSignup}>회원가입</button>
     </Container>
   );
 };
@@ -65,4 +72,5 @@ export default Login;
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
 `;
