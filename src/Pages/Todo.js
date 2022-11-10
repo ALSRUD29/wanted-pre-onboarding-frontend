@@ -33,7 +33,7 @@ const Todo = () => {
         <input
           value={todo}
           onChange={handleChange}
-          onKeyDown={handleEnter}
+          onKeyUp={handleEnter}
         ></input>
         <button onClick={handleCreate}>추가</button>
       </div>
