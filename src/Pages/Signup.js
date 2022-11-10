@@ -27,14 +27,17 @@ const Signup = () => {
       headers: { 'Content-Type': `application/json` },
     };
 
-    axios.post(`${URL}/auth/signup`, loginData, loginConfig).then((res) => {
-      console.log(res);
-      let access_token = res.data.access_token;
-      //   localStorage.setItem('access_token', access_token);
-      if (access_token) {
-        navigate('/');
-      }
-    });
+    axios
+      .post(`${URL}/auth/signup`, loginData, loginConfig)
+      .then((res) => {
+        console.log(res);
+        let access_token = res.data.access_token;
+        //   localStorage.setItem('access_token', access_token);
+        if (access_token) {
+          navigate('/');
+        }
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
