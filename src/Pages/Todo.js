@@ -20,11 +20,21 @@ const Todo = () => {
   const handleRemove = (event) => {
     setTodos(todos.filter((ele) => ele !== todos[event.target.value]));
   };
+  const handleEnter = (e) => {
+    if (e.key === 'Enter') {
+      handleCreate();
+    }
+  };
+
   return (
     <Container>
       <h2>TodoList</h2>
       <div>
-        <input value={todo} onChange={handleChange}></input>
+        <input
+          value={todo}
+          onChange={handleChange}
+          onKeyDown={handleEnter}
+        ></input>
         <button onClick={handleCreate}>추가</button>
       </div>
       <div>
