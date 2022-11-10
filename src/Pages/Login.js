@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -9,8 +9,8 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const disabled = !email.includes('@') || password.length < 8;
-
   const navigate = useNavigate();
+
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
@@ -28,19 +28,28 @@ const Login = () => {
       headers: { 'Content-Type': `application/json` },
     };
 
-    axios.post(`${URL}/auth/signin`, loginData, loginConfig).then((res) => {
-      console.log(res);
-      let access_token = res.data.access_token;
-      if (access_token) {
-        localStorage.setItem('access_token', access_token);
-        navigate('/todo');
-      }
-    });
+    axios
+      .post(`${URL}/auth/signin`, loginData, loginConfig)
+      .then((res) => {
+        console.log(res);
+        let access_token = res.data.access_token;
+        if (access_token) {
+          localStorage.setItem('access_token', access_token);
+          navigate('/todo');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleSignup = () => {
     navigate('/signup');
   };
+
+  useEffect(() => {
+    console.log('로컬스토리지 토큰', localStorage.getItem('access_token'));
+  }, []);
 
   return (
     <Container>
