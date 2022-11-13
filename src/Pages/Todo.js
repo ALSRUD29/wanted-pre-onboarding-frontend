@@ -1,87 +1,46 @@
 import { useRef, useState } from 'react';
-import styled from 'styled-components';
 
 const Todo = () => {
-  const ref = useRef();
   const [todo, setTodo] = useState('');
-  const [todos, setTodos] = useState([]);
-
-  const handleChange = (e) => {
+  const [todoList, setTodoList] = useState([]);
+  const inputRef = useRef(null);
+  // input 값 가져오기
+  const handleChangeTodo = (e) => {
     setTodo(e.target.value);
   };
-  const handleCreate = () => {
-    if (todo === '') {
-      return;
-    }
-    setTodos((current) => [todo, ...current]);
-    setTodo('');
-  };
-  const handleUpdate = () => {};
-  const handleRemove = (event) => {
-    setTodos(todos.filter((ele) => ele !== todos[event.target.value]));
-  };
-  const handleEnter = (e) => {
-    if (e.key === 'Enter') {
-      handleCreate();
-    }
-  };
 
+  const onPressSubmitButton = (e) => {
+    e.preventDefault();
+
+    // todoItemList에 값 추가
+    const nextTodoList = todoList.concat({
+      id: todoList.length,
+      todo,
+      checked: false,
+      deleted: false,
+    });
+    setTodoList(nextTodoList);
+
+    // input 값 초기화 및 포커싱
+    setTodo('');
+    inputRef.current.focus();
+  };
   return (
-    <Container>
-      <h2>TodoList</h2>
-      <div>
+    <div>
+      {/* ToDo Item을 추가할 수 있는 input 박스 */}
+      <form onSubmit={onPressSubmitButton}>
+        {/* 아이템 내용 입력 input */}
         <input
           value={todo}
-          onChange={handleChange}
-          onKeyUp={handleEnter}
-        ></input>
-        <button onClick={handleCreate}>추가</button>
-      </div>
-      <div>
-        {todos.map((ele, index) => (
-          <ListContainer key={index}>
-            <div>
-              <input type="checkbox"></input>
-              <span key={index} ref={ref}>
-                {ele}
-              </span>
-            </div>
-            <div>
-              <button onClick={handleUpdate}>수정</button>
-              <button onClick={handleRemove} value={index}>
-                삭제
-              </button>
-            </div>
-          </ListContainer>
-        ))}
-      </div>
-    </Container>
+          ref={inputRef}
+          placeholder="할 일을 입력해주세요"
+          onChange={handleChangeTodo}
+        />
+        {/* 입력 후 아이템 추가 버튼 */}
+        <button type="submit">추가</button>
+      </form>
+    </div>
   );
 };
 
 export default Todo;
-
-const Container = styled.div`
-  padding: 20px;
-  > div {
-    > input {
-      width: 400px;
-      margin-bottom: 20px;
-    }
-  }
-`;
-
-const ListContainer = styled.div`
-  width: 450px;
-  display: flex;
-  justify-content: space-between;
-  padding: 5px;
-  > div {
-    > input {
-      margin-right: 15px;
-    }
-    > span {
-      background-color: pink;
-    }
-  }
-`;
