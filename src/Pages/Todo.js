@@ -12,14 +12,16 @@ const Todo = () => {
   const onPressSubmitButton = (e) => {
     e.preventDefault();
 
-    // todoItemList에 값 추가
-    const nextTodoList = todoList.concat({
-      id: todoList.length,
-      text,
-      checked: false,
-      deleted: false,
-    });
-    setTodoList(nextTodoList);
+    // todoItemList에 값 추가 //위에서부터 추가로 변경
+    setTodoList((current) => [
+      {
+        id: todoList.length,
+        text,
+        checked: false,
+        deleted: false,
+      },
+      ...current,
+    ]);
 
     // input 값 초기화 및 포커싱
     setText('');
