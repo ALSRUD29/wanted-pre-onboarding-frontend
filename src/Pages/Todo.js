@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import styled from 'styled-components';
 
 const Todo = () => {
   const [text, setText] = useState('');
@@ -21,7 +22,6 @@ const Todo = () => {
         id: todoList.length,
         text,
         checked: false,
-        deleted: false,
       },
       ...current,
     ]);
@@ -29,6 +29,10 @@ const Todo = () => {
     // input 값 초기화 및 포커싱
     setText('');
     inputRef.current.focus();
+  };
+
+  const handleDelete = (e) => {
+    setTodoList(todoList.filter((ele) => ele.id !== Number(e.target.value)));
   };
 
   return (
@@ -45,17 +49,32 @@ const Todo = () => {
         {/* 입력 후 아이템 추가 버튼 */}
         <button type="submit">추가</button>
       </form>
-      <div>
-        <span>
-          {todoList.map((todoItem) => (
-            <div key={todoItem.id}>
-              <li>{todoItem.text}</li>
+
+      <TodoList>
+        {todoList.map((todoItem) => (
+          <div key={todoItem.id}>
+            <div>{todoItem.text}</div>
+            <div>
+              <button>수정</button>
+              <button onClick={handleDelete} value={todoItem.id}>
+                삭제
+              </button>
             </div>
-          ))}
-        </span>
-      </div>
+          </div>
+        ))}
+      </TodoList>
     </div>
   );
 };
 
 export default Todo;
+
+const TodoList = styled.div`
+  display: flex;
+  flex-direction: column;
+  > div {
+    width: 235px;
+    display: flex;
+    justify-content: space-between;
+  }
+`;
