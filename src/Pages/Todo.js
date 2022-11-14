@@ -11,7 +11,10 @@ const Todo = () => {
 
   const onPressSubmitButton = (e) => {
     e.preventDefault();
-
+    // 빈문자열이거나 띄어쓰기만 있을 때는 추가 안됨.
+    if (text.trim().length === 0) {
+      return;
+    }
     // todoItemList에 값 추가 //위에서부터 추가로 변경
     setTodoList((current) => [
       {
