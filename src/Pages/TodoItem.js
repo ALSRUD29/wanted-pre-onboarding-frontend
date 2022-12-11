@@ -36,13 +36,11 @@ const TodoItem = ({ todoItem, setTodoList, todoList }) => {
   };
 
   const handleRemove = (id) => {
-    console.log('id', id.target.value);
     setTodoList(todoList.filter((ele) => ele.id !== Number(id.target.value)));
   };
 
   const handleCheck = () => {
     setChecked(!checked);
-    console.log('checked', checked);
     const editedTodoList = todoList.map((ele) => ({
       ...ele,
       checked: ele.id === todoItem.id ? checked : ele.checked,
@@ -62,29 +60,33 @@ const TodoItem = ({ todoItem, setTodoList, todoList }) => {
       ) : (
         <span className={todoItem.checked ? 'check' : ''}>{todoItem.text}</span>
       )}
-      {checked ? (
-        <div>
-          {edited ? (
-            <>
-              <button onClick={handleConfirm}>제출</button>
-              <button onClick={handleCancel}>취소</button>
-            </>
-          ) : (
-            <button value={todoItem.id} onClick={handleEdit}>
-              수정
-            </button>
-          )}
-          {edited ? (
-            ''
-          ) : (
-            <button onClick={handleRemove} value={todoItem.id}>
-              삭제
-            </button>
-          )}
-        </div>
-      ) : (
-        ''
-      )}
+      <div>
+        {edited ? (
+          <>
+            <button onClick={handleConfirm}>제출</button>
+            <button onClick={handleCancel}>취소</button>
+          </>
+        ) : (
+          <button
+            value={todoItem.id}
+            onClick={handleEdit}
+            className={todoItem.checked ? 'none' : ''}
+          >
+            수정
+          </button>
+        )}
+        {edited ? (
+          ''
+        ) : (
+          <button
+            onClick={handleRemove}
+            value={todoItem.id}
+            className={todoItem.checked ? 'none' : ''}
+          >
+            삭제
+          </button>
+        )}
+      </div>
     </Container>
   );
 };
@@ -94,5 +96,8 @@ export default TodoItem;
 const Container = styled.div`
   > span.check {
     text-decoration: line-through;
+  }
+  > div > button.none {
+    display: none;
   }
 `;

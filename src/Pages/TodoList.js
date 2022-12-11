@@ -14,7 +14,6 @@ const TodoList = () => {
   const onClickAddButton = () => {
     // 빈문자열이거나 띄어쓰기만 있을 때는 추가 안됨.
     if (text.trim().length === 0) {
-      console.log('빈문자');
       return;
     }
     // todoItemList에 값 추가 //위에서부터 추가로 변경

@@ -31,7 +31,6 @@ const Signup = () => {
     axios
       .post(`${URL}/auth/signup`, loginData, loginConfig)
       .then((res) => {
-        console.log(res);
         let access_token = res.data.access_token;
         //   localStorage.setItem('access_token', access_token);
         if (access_token) {
