@@ -31,6 +31,11 @@ const TodoList = () => {
     // input 값 초기화 및 포커싱
     setText('');
   };
+  const handleEnter = (e) => {
+    if (e.key === 'Enter') {
+      onClickAddButton();
+    }
+  };
 
   return (
     <div>
@@ -40,13 +45,19 @@ const TodoList = () => {
         value={text}
         placeholder="할 일을 입력해주세요"
         onChange={handleChangeTodo}
+        onKeyUp={handleEnter}
       />
       {/* 입력 후 아이템 추가 버튼 */}
       <button onClick={onClickAddButton}>추가</button>
       {/* 입력 후 아이템 리스트 */}
       <StyledTodoList>
         {todoList.map((todoItem) => (
-          <TodoItem todoItem={todoItem} key={todoItem.id} />
+          <TodoItem
+            todoItem={todoItem}
+            key={todoItem.id}
+            todoList={todoList}
+            setTodoList={setTodoList}
+          />
         ))}
       </StyledTodoList>
     </div>
