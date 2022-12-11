@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const TodoItem = ({ todoItem }) => {
+const TodoItem = ({ todoItem, setTodoList, todoList }) => {
   const [edited, setEdited] = useState(false);
   const [newText, setNewText] = useState(todoItem.text);
 
@@ -9,6 +9,15 @@ const TodoItem = ({ todoItem }) => {
   };
   const onChangeEditInput = (e) => {
     setNewText(e.target.value);
+  };
+
+  const handleConfirm = () => {
+    const editedTodoList = todoList.map((ele) => ({
+      ...ele,
+      text: ele.id === todoItem.id ? newText : ele.text,
+    }));
+    setTodoList(editedTodoList);
+    setEdited(false);
   };
 
   return (
@@ -21,7 +30,7 @@ const TodoItem = ({ todoItem }) => {
       )}
       <div>
         {edited ? (
-          <button>👌</button>
+          <button onClick={handleConfirm}>👌</button>
         ) : (
           <button value={todoItem.id} onClick={handleEdit}>
             수정
