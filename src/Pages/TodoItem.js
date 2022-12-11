@@ -28,6 +28,11 @@ const TodoItem = ({ todoItem, setTodoList, todoList }) => {
     setEdited(false);
   };
 
+  const handleCancel = () => {
+    setNewText(todoItem.text);
+    setEdited(false);
+  };
+
   const handleRemove = (id) => {
     console.log('id', id.target.value);
     setTodoList(todoList.filter((ele) => ele.id !== Number(id.target.value)));
@@ -35,7 +40,6 @@ const TodoItem = ({ todoItem, setTodoList, todoList }) => {
 
   return (
     <div key={todoItem.id}>
-      <input type="checkbox" />
       {edited ? (
         <input
           value={newText}
@@ -47,15 +51,22 @@ const TodoItem = ({ todoItem, setTodoList, todoList }) => {
       )}
       <div>
         {edited ? (
-          <button onClick={handleConfirm}>👌</button>
+          <>
+            <button onClick={handleConfirm}>수정완료</button>
+            <button onClick={handleCancel}>취소</button>
+          </>
         ) : (
           <button value={todoItem.id} onClick={handleEdit}>
             수정
           </button>
         )}
-        <button onClick={handleRemove} value={todoItem.id}>
-          삭제
-        </button>
+        {edited ? (
+          ''
+        ) : (
+          <button onClick={handleRemove} value={todoItem.id}>
+            삭제
+          </button>
+        )}
       </div>
     </div>
   );
