@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
-import Todo from './Pages/Todo';
+import TodoList from './Pages/TodoList';
 function App() {
   const isLogin = localStorage.getItem('access_token');
   return (
@@ -19,7 +19,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route
           path="/todo"
-          element={isLogin ? <Todo /> : <Navigate to="/" />}
+          element={isLogin ? <TodoList /> : <Navigate to="/" />}
         />
       </Routes>
     </Router>

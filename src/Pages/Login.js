@@ -49,6 +49,7 @@ const Login = () => {
 
   return (
     <Container>
+      <div>원티드 프리온보딩 프론트엔드</div>
       <StyledLoginWrapper>
         <form onSubmit={handleSubmit}>
           <div>
@@ -86,7 +87,12 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   margin: 5rem 10rem;
-  background-color: red;
+  background-color: rgb(58, 88, 255);
+  border-radius: 1rem;
+  > div {
+    margin: 1rem;
+    color: white;
+  }
 `;
 
 const StyledLoginWrapper = styled.div`
@@ -97,6 +103,7 @@ const StyledLoginWrapper = styled.div`
   }
   button {
     width: 100%;
+    margin-top: 0.5rem;
   }
 `;
 
@@ -108,5 +115,6 @@ const StyledSignupWrapper = styled.div`
   }
   > button {
     width: 13rem;
+    margin-top: 0.5rem;
   }
 `;

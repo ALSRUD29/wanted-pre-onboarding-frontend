@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 const URL = `https://pre-onboarding-selection-task.shop`;
 
@@ -41,28 +42,56 @@ const Signup = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">이메일</label>
-          <input
-            type="email"
-            htmlFor="email"
-            onChange={handleEmailChange}
-          ></input>
-        </div>
-        <div>
-          <label htmlFor="password">비밀번호</label>
-          <input
-            type="password"
-            htmlFor="password"
-            onChange={handlePasswordChange}
-          ></input>
-        </div>
-        <button disabled={disabled}>회원가입</button>
-      </form>
-    </div>
+    <Container>
+      <div>원티드 프리온보딩 프론트엔드</div>
+      <StyledSignupWrapper>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="email">이메일</label>
+            <input
+              type="email"
+              htmlFor="email"
+              onChange={handleEmailChange}
+            ></input>
+          </div>
+          <div>
+            <label htmlFor="password">비밀번호</label>
+            <input
+              type="password"
+              htmlFor="password"
+              onChange={handlePasswordChange}
+            ></input>
+          </div>
+          <button disabled={disabled}>회원가입</button>
+        </form>
+      </StyledSignupWrapper>
+    </Container>
   );
 };
 
 export default Signup;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 5rem 10rem;
+  background-color: rgb(58, 88, 255);
+  border-radius: 1rem;
+  color: white;
+  > div {
+    margin: 1rem;
+  }
+`;
+
+const StyledSignupWrapper = styled.div`
+  button {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+  > form > div {
+    display: flex;
+    justify-content: space-between;
+  }
+`;
