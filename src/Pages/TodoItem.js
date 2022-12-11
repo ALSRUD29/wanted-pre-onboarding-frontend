@@ -20,6 +20,10 @@ const TodoItem = ({ todoItem, setTodoList, todoList }) => {
     setEdited(false);
   };
 
+  const handleRemove = (e) => {
+    setTodoList(todoList.filter((ele) => ele.id !== Number(e.target.value)));
+  };
+
   return (
     <div key={todoItem.id}>
       <input type="checkbox" />
@@ -36,7 +40,7 @@ const TodoItem = ({ todoItem, setTodoList, todoList }) => {
             수정
           </button>
         )}
-        <button>삭제</button>
+        <button onClick={handleRemove}>삭제</button>
       </div>
     </div>
   );
