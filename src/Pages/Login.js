@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -17,7 +17,7 @@ const Login = () => {
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const loginData = {
@@ -28,14 +28,14 @@ const Login = () => {
       headers: { 'Content-Type': `application/json` },
     };
 
-    axios
+    await axios
       .post(`${URL}/auth/signin`, loginData, loginConfig)
       .then((res) => {
-        console.log(res);
         let access_token = res.data.access_token;
         if (access_token) {
           localStorage.setItem('access_token', access_token);
           navigate('/todo');
+          window.location.reload(); //새로고침을 하지 않으면 navigate이동이 안됨
         }
       })
       .catch((error) => {
@@ -46,10 +46,6 @@ const Login = () => {
   const handleSignup = () => {
     navigate('/signup');
   };
-
-  useEffect(() => {
-    console.log('로컬스토리지 토큰', localStorage.getItem('access_token'));
-  }, []);
 
   return (
     <Container>
