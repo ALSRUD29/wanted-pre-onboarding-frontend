@@ -23,7 +23,6 @@ const TodoList = () => {
       {
         id: todoList.length,
         text,
-        checked: false,
       },
       ...current,
     ]);
@@ -70,14 +69,17 @@ export default TodoList;
 
 const Container = styled.div`
   width: 30rem;
+  margin: 5rem 10rem;
 `;
 
 const StyledInputWrapper = styled.div`
   display: flex;
   flex-direction: row;
+
   > input {
     width: 100%;
   }
+  margin-bottom: 1rem;
 `;
 
 const StyledTodoList = styled.div`
@@ -88,5 +90,6 @@ const StyledTodoList = styled.div`
   > div {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 0.5rem;
   }
 `;
