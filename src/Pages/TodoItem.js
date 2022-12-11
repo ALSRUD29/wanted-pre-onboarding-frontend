@@ -52,7 +52,7 @@ const TodoItem = ({ todoItem, setTodoList, todoList }) => {
       <div>
         {edited ? (
           <>
-            <button onClick={handleConfirm}>수정완료</button>
+            <button onClick={handleConfirm}>제출</button>
             <button onClick={handleCancel}>취소</button>
           </>
         ) : (
