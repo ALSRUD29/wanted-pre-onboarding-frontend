@@ -38,17 +38,19 @@ const TodoList = () => {
   };
 
   return (
-    <div>
+    <Container>
       {/* ToDo Item을 추가할 수 있는 input 박스 */}
       {/* 아이템 내용 입력 input */}
-      <input
-        value={text}
-        placeholder="할 일을 입력해주세요"
-        onChange={handleChangeTodo}
-        onKeyUp={handleEnter}
-      />
-      {/* 입력 후 아이템 추가 버튼 */}
-      <button onClick={onClickAddButton}>추가</button>
+      <StyledInputWrapper>
+        <input
+          value={text}
+          placeholder="할 일을 입력해주세요"
+          onChange={handleChangeTodo}
+          onKeyUp={handleEnter}
+        />
+        {/* 입력 후 아이템 추가 버튼 */}
+        <button onClick={onClickAddButton}>추가</button>
+      </StyledInputWrapper>
       {/* 입력 후 아이템 리스트 */}
       <StyledTodoList>
         {todoList.map((todoItem) => (
@@ -60,17 +62,30 @@ const TodoList = () => {
           />
         ))}
       </StyledTodoList>
-    </div>
+    </Container>
   );
 };
 
 export default TodoList;
 
+const Container = styled.div`
+  width: 30rem;
+`;
+
+const StyledInputWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  > input {
+    width: 100%;
+  }
+`;
+
 const StyledTodoList = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+
   > div {
-    width: 235px;
     display: flex;
     justify-content: space-between;
   }
