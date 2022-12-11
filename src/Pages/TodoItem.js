@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const TodoItem = ({ todoItem, setTodoList, todoList }) => {
   const [edited, setEdited] = useState(false);
@@ -11,6 +11,14 @@ const TodoItem = ({ todoItem, setTodoList, todoList }) => {
     setNewText(e.target.value);
   };
 
+  const editInputRef = useRef();
+
+  useEffect(() => {
+    if (edited) {
+      editInputRef.current.focus();
+    }
+  }, [edited]);
+
   const handleConfirm = () => {
     const editedTodoList = todoList.map((ele) => ({
       ...ele,
@@ -20,15 +28,20 @@ const TodoItem = ({ todoItem, setTodoList, todoList }) => {
     setEdited(false);
   };
 
-  const handleRemove = (e) => {
-    setTodoList(todoList.filter((ele) => ele.id !== Number(e.target.value)));
+  const handleRemove = (id) => {
+    console.log('id', id.target.value);
+    setTodoList(todoList.filter((ele) => ele.id !== Number(id.target.value)));
   };
 
   return (
     <div key={todoItem.id}>
       <input type="checkbox" />
       {edited ? (
-        <input value={newText} onChange={onChangeEditInput} />
+        <input
+          value={newText}
+          onChange={onChangeEditInput}
+          ref={editInputRef}
+        />
       ) : (
         <span>{todoItem.text}</span>
       )}
@@ -40,7 +53,9 @@ const TodoItem = ({ todoItem, setTodoList, todoList }) => {
             수정
           </button>
         )}
-        <button onClick={handleRemove}>삭제</button>
+        <button onClick={handleRemove} value={todoItem.id}>
+          삭제
+        </button>
       </div>
     </div>
   );
