@@ -35,7 +35,7 @@ const Login = () => {
         if (access_token) {
           localStorage.setItem('access_token', access_token);
           navigate('/todo');
-          window.location.reload(); //새로고침을 하지 않으면 navigate이동이 안됨
+          window.location.reload();
         }
       })
       .catch((error) => {

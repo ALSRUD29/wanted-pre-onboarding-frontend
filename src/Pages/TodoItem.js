@@ -24,7 +24,6 @@ const TodoItem = ({ todoItem, setTodoList }) => {
   }, [edited]);
 
   const handleConfirm = () => {
-    //여기서 axios요청이 이루어져야 함
     const access_token = localStorage.getItem('access_token');
 
     axios
@@ -51,7 +50,6 @@ const TodoItem = ({ todoItem, setTodoList }) => {
               },
             })
             .then((res) => {
-              console.log(res.data);
               setTodoList(res.data.reverse());
             });
         }
@@ -75,7 +73,6 @@ const TodoItem = ({ todoItem, setTodoList }) => {
       })
       .then((res) => {
         if (res) {
-          console.log('성공');
           axios
             .get(`${URL}/todos`, {
               headers: {
@@ -108,7 +105,6 @@ const TodoItem = ({ todoItem, setTodoList }) => {
       )
       .then((res) => {
         if (res) {
-          console.log('성공');
           axios
             .get(`${URL}/todos`, {
               headers: {
@@ -120,12 +116,6 @@ const TodoItem = ({ todoItem, setTodoList }) => {
             });
         }
       });
-    // const editedTodoList = todoList.map((ele) => ({
-    //   ...ele,
-    //   isCompleted: ele.id === todoItem.id ? checked : ele.isCompleted,
-    // }));
-    // setTodoList(editedTodoList);
-    // console.log(todoList);
   };
 
   return (

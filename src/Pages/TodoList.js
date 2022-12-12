@@ -17,23 +17,19 @@ const TodoList = () => {
         },
       })
       .then((res) => {
-        console.log('리스트받아오기', res.data);
         setTodoList(res.data.reverse());
       });
   }, []);
 
-  // input 값 가져오기
   const handleChangeTodo = (e) => {
     setText(e.target.value);
   };
 
   const onClickAddButton = async () => {
-    // 빈문자열이거나 띄어쓰기만 있을 때는 추가 안됨.
     if (text.trim().length === 0) {
       return;
     }
     const access_token = localStorage.getItem('access_token');
-    console.log(access_token);
 
     await axios
       .post(
@@ -47,10 +43,8 @@ const TodoList = () => {
         }
       )
       .then((res) => {
-        console.log(res.data);
         const newTodo = res.data;
         setTodoList((current) => [newTodo, ...current]);
-        console.log(todoList);
         setText('');
       })
       .catch((error) => {
@@ -65,8 +59,6 @@ const TodoList = () => {
 
   return (
     <Container>
-      {/* ToDo Item을 추가할 수 있는 input 박스 */}
-      {/* 아이템 내용 입력 input */}
       <StyledInputWrapper>
         <input
           value={text}
@@ -74,10 +66,8 @@ const TodoList = () => {
           onChange={handleChangeTodo}
           onKeyUp={handleEnter}
         />
-        {/* 입력 후 아이템 추가 버튼 */}
         <button onClick={onClickAddButton}>추가</button>
       </StyledInputWrapper>
-      {/* 입력 후 아이템 리스트 */}
       <StyledTodoList>
         {todoList.map((todoItem) => (
           <TodoItem
