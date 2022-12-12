@@ -10,7 +10,7 @@ import TodoList from './Pages/TodoList';
 function App() {
   const isLogin = localStorage.getItem('access_token');
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route
           path="/"

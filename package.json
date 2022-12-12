@@ -2,6 +2,7 @@
   "name": "wanted",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://ALSRUD29.github.io/wanted-pre-onboarding-frontend",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.0",
     "@testing-library/jest-dom": "^5.16.5",
@@ -15,7 +16,6 @@
     "react-redux": "^8.0.5",
     "react-router": "^6.4.3",
     "react-router-app": "^0.1.6",
-    "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
     "redux": "^4.2.0",
     "styled-components": "^5.3.6",
@@ -25,7 +25,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -51,6 +53,8 @@
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.10",
-    "eslint-plugin-react-hooks": "^4.6.0"
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "gh-pages": "^4.0.0",
+    "react-router-dom": "^6.4.5"
   }
 }
