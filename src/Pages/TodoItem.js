@@ -1,10 +1,12 @@
+import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-const TodoItem = ({ todoItem, setTodoList, todoList }) => {
+const URL = `https://pre-onboarding-selection-task.shop`;
+
+const TodoItem = ({ todoItem, setTodoList }) => {
   const [edited, setEdited] = useState(false);
-  const [newText, setNewText] = useState(todoItem.text);
-  const [checked, setChecked] = useState(true);
+  const [newText, setNewText] = useState(todoItem.todo);
 
   const handleEdit = () => {
     setEdited(true);
@@ -22,12 +24,39 @@ const TodoItem = ({ todoItem, setTodoList, todoList }) => {
   }, [edited]);
 
   const handleConfirm = () => {
-    const editedTodoList = todoList.map((ele) => ({
-      ...ele,
-      text: ele.id === todoItem.id ? newText : ele.text,
-    }));
-    setTodoList(editedTodoList);
-    setEdited(false);
+    //여기서 axios요청이 이루어져야 함
+    const access_token = localStorage.getItem('access_token');
+
+    axios
+      .put(
+        `${URL}/todos/${todoItem.id}`,
+        {
+          isCompleted: todoItem.isCompleted,
+          todo: newText,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((res) => {
+        //겟요청
+        if (res) {
+          axios
+            .get(`${URL}/todos`, {
+              headers: {
+                Authorization: `Bearer ${access_token}`,
+              },
+            })
+            .then((res) => {
+              console.log(res.data);
+              setTodoList(res.data.reverse());
+            });
+        }
+        setEdited(false);
+      });
   };
 
   const handleCancel = () => {
@@ -35,22 +64,81 @@ const TodoItem = ({ todoItem, setTodoList, todoList }) => {
     setEdited(false);
   };
 
-  const handleRemove = (id) => {
-    setTodoList(todoList.filter((ele) => ele.id !== Number(id.target.value)));
+  const handleRemove = () => {
+    const access_token = localStorage.getItem('access_token');
+
+    axios
+      .delete(`${URL}/todos/${todoItem.id}`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
+      .then((res) => {
+        if (res) {
+          console.log('성공');
+          axios
+            .get(`${URL}/todos`, {
+              headers: {
+                Authorization: `Bearer ${access_token}`,
+              },
+            })
+            .then((res) => {
+              setTodoList(res.data.reverse());
+            });
+        }
+      });
   };
 
   const handleCheck = () => {
-    setChecked(!checked);
-    const editedTodoList = todoList.map((ele) => ({
-      ...ele,
-      checked: ele.id === todoItem.id ? checked : ele.checked,
-    }));
-    setTodoList(editedTodoList);
+    const access_token = localStorage.getItem('access_token');
+
+    axios
+      .put(
+        `${URL}/todos/${todoItem.id}`,
+        {
+          isCompleted: !todoItem.isCompleted,
+          todo: todoItem.todo,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((res) => {
+        if (res) {
+          console.log('성공');
+          axios
+            .get(`${URL}/todos`, {
+              headers: {
+                Authorization: `Bearer ${access_token}`,
+              },
+            })
+            .then((res) => {
+              setTodoList(res.data.reverse());
+            });
+        }
+      });
+    // const editedTodoList = todoList.map((ele) => ({
+    //   ...ele,
+    //   isCompleted: ele.id === todoItem.id ? checked : ele.isCompleted,
+    // }));
+    // setTodoList(editedTodoList);
+    // console.log(todoList);
   };
 
   return (
     <Container key={todoItem.id}>
-      <input type={'checkbox'} onClick={handleCheck} />
+      {todoItem.isCompleted ? (
+        <button type={'checkbox'} onClick={handleCheck}>
+          완료
+        </button>
+      ) : (
+        <button type={'checkbox'} onClick={handleCheck}>
+          미완료
+        </button>
+      )}
       {edited ? (
         <input
           value={newText}
@@ -58,7 +146,9 @@ const TodoItem = ({ todoItem, setTodoList, todoList }) => {
           ref={editInputRef}
         />
       ) : (
-        <span className={todoItem.checked ? 'check' : ''}>{todoItem.text}</span>
+        <span className={todoItem.isCompleted ? 'check' : ''}>
+          {todoItem.todo}
+        </span>
       )}
       <div>
         {edited ? (
@@ -70,7 +160,7 @@ const TodoItem = ({ todoItem, setTodoList, todoList }) => {
           <button
             value={todoItem.id}
             onClick={handleEdit}
-            className={todoItem.checked ? 'none' : ''}
+            className={todoItem.isCompleted ? 'none' : ''}
           >
             수정
           </button>
@@ -81,7 +171,7 @@ const TodoItem = ({ todoItem, setTodoList, todoList }) => {
           <button
             onClick={handleRemove}
             value={todoItem.id}
-            className={todoItem.checked ? 'none' : ''}
+            className={todoItem.isCompleted ? 'none' : ''}
           >
             삭제
           </button>

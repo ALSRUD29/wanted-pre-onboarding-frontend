@@ -1,33 +1,61 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import TodoItem from './TodoItem';
 
+const URL = `https://pre-onboarding-selection-task.shop`;
 const TodoList = () => {
   const [text, setText] = useState('');
   const [todoList, setTodoList] = useState([]);
+  useEffect(() => {
+    const access_token = localStorage.getItem('access_token');
+
+    axios
+      .get(`${URL}/todos`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
+      .then((res) => {
+        console.log('리스트받아오기', res.data);
+        setTodoList(res.data.reverse());
+      });
+  }, []);
 
   // input 값 가져오기
   const handleChangeTodo = (e) => {
     setText(e.target.value);
   };
 
-  const onClickAddButton = () => {
+  const onClickAddButton = async () => {
     // 빈문자열이거나 띄어쓰기만 있을 때는 추가 안됨.
     if (text.trim().length === 0) {
       return;
     }
-    // todoItemList에 값 추가 //위에서부터 추가로 변경
-    //버전1
-    setTodoList((current) => [
-      {
-        id: todoList.length,
-        text,
-      },
-      ...current,
-    ]);
+    const access_token = localStorage.getItem('access_token');
+    console.log(access_token);
 
-    // input 값 초기화 및 포커싱
-    setText('');
+    await axios
+      .post(
+        `${URL}/todos`,
+        { todo: text },
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        const newTodo = res.data;
+        setTodoList((current) => [newTodo, ...current]);
+        console.log(todoList);
+        setText('');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   const handleEnter = (e) => {
     if (e.key === 'Enter') {
